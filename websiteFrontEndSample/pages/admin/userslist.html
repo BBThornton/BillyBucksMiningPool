@@ -90,6 +90,7 @@ function createUserTable(promptPassword, api, parentStats, otherStats, active) {
         dataType: 'json',
         cache: false,
         success: function(data) {
+            console.log("MINER"+JSON.stringify(data));
             docCookies.setItem('password', password, Infinity);
             renderTemplate(parseUsers(parentStats, data, active), '#siblingTemplate', '#tab-content');
             $('[data-toggle="tooltip"]').tooltip();
