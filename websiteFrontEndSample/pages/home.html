@@ -250,6 +250,7 @@ currentPage = {
             $('#networkLastBlockFound').timeago('update', new Date(lastStats.lastblock.timestamp * 1000).toISOString());
 
         let stats = updateKey === parentCoin ? lastStats : mergedStats[updateKey]
+        console.log("STATS: "+JSON.stringify(stats));
         if (stats) {
 
             home_GenerateNetworkStats(updateKey, stats.config.symbol)
@@ -272,7 +273,9 @@ currentPage = {
 
             updateText(`poolMiners${updateKey}`, `${stats.pool.miners}/${stats.pool.minersSolo}`);
             updateText(`blocksTotal${updateKey}`, `${stats.pool.totalBlocks}/${stats.pool.totalBlocksSolo}`);
-            updateText(`currentEffort${updateKey}`, (stats.pool.roundHashes / stats.network.difficulty * 100).toFixed(1) + '%');
+            
+            //BillyBucks: need to change to 10 to the billybucks threshold from an api call
+            updateText(`currentEffort${updateKey}`, (stats.pool.roundHashes / 10 * 100).toFixed(1) + '%');
 
 
             let el = updateText('lastHash', lastStats.lastblock.hash)

@@ -36,16 +36,23 @@ var redis = require('redis');
 var redisDB = (config.redis.db && config.redis.db > 0) ? config.redis.db : 0;
 global.redisClient = redis.createClient(config.redis.port, config.redis.host, {
 	db: redisDB,
-	auth_pass: config.redis.auth
+	auth_pass: config.redis.auth,
+	legacyMode: true
 });
+log('info', logSystem,'Attempt Connect');
+
 
 if ((typeof config.poolServer.mergedMining !== 'undefined' && config.poolServer.mergedMining) && typeof config.childPools !== 'undefined')
 	config.childPools = config.childPools.filter(pool => pool.enabled);
 else
 	config.childPools = [];
 
+log('info', logSystem,cluster.isWorker);
+
+	
 // Load pool modules
 if (cluster.isWorker) {
+
 	switch (process.env.workerType) {
 		case 'pool':
 			require('./lib/pool.js');
@@ -72,7 +79,10 @@ if (cluster.isWorker) {
 			require('./lib/telegramBot.js');
 			break;
 	}
+	log('info', logSystem,'progrss');
+
 	return;
+	
 }
 
 // Developer donations
@@ -101,6 +111,8 @@ var singleModule = (function () {
  * Start modules
  **/
 (function init() {
+	log('info', logSystem,'Prog');
+
 	checkRedisVersion(function () {
 		if (singleModule) {
 			log('info', logSystem, 'Running in single module mode: %s', [singleModule]);
@@ -129,6 +141,7 @@ var singleModule = (function () {
 					break;
 			}
 		} else {
+			log('info', logSystem,'Starting Modules');
 			spawnPoolWorkers();
 			spawnDaemon();
 			if (config.poolServer.mergedMining)
@@ -146,7 +159,10 @@ var singleModule = (function () {
  * Check redis database version
  **/
 function checkRedisVersion(callback) {
+	log('info', logSystem,'Checking Redis Version....');
+
 	redisClient.info(function (error, response) {
+		log('info', logSystem,'HERE');
 		if (error) {
 			log('error', logSystem, 'Redis version check failed');
 			return;
@@ -171,6 +187,8 @@ function checkRedisVersion(callback) {
 			log('error', logSystem, "You're using redis version %s the minimum required version is 2.6. Follow the damn usage instructions...", [versionString]);
 			return;
 		}
+		log('info', logSystem,'Made it to callback');
+
 		callback();
 	});
 }

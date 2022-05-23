@@ -254,7 +254,8 @@ function formatLuck(difficulty, shares, solo=false) {
         var accurateShares = shares;
     }
 
-    var percent = Math.round(accurateShares / difficulty * 100);
+    //BillyBucks Need to change 10 to billybucks.threshold
+    var percent = Math.round(accurateShares / 10 * 100);
     if(!percent){
         return `<span class="luckGood">?</span>` + (solo === true ? `<span class="fa fa-user luckGood" title="Solo Mined"></span>` : ``);
     }
@@ -639,6 +640,7 @@ function poolBlocks_RenderBlocks(blocksResults, stats){
     for (var i = 0; i < blocksResults.length; i += 2){
         var block = poolBlocks_ParseBlock(blocksResults[i + 1], blocksResults[i], stats);
         var blockJson = JSON.stringify(block);
+        console.log(blockJson)
 
         var existingRow = document.getElementById(`blockRow${stats.config.coin}${block.height}`);
         if (existingRow && existingRow.getAttribute(`data-json`) !== blockJson){
@@ -2197,8 +2199,8 @@ function home_InitTemplate(parentStats, siblingStats) {
                         symbol: parentStats.config.symbol, 
                         miners: parentStats.pool.miners.toString(),
                         minersSolo: parentStats.pool.minersSolo.toString()})
-        
-        efforts.push({coin: coin, effort: `${(parentStats.pool.roundHashes / parentStats.network.difficulty * 100).toFixed(1)}%`,symbol: parentStats.config.symbol})
+        //BillyBucks change 10 to the threshold value from BillyBucks api call
+        efforts.push({coin: coin, effort: `${(parentStats.pool.roundHashes / 10 * 100).toFixed(1)}%`,symbol: parentStats.config.symbol})
         
         let template = $('#siblingTemplate').html()
         Mustache.parse(template)
@@ -2229,7 +2231,8 @@ function home_InitTemplate(parentStats, siblingStats) {
                         miners: siblingStats[key].pool.miners.toString(),
                         minersSolo: siblingStats[key].pool.minersSolo.toString()})
         
-        efforts.push({coin: key, effort: `${(siblingStats[key].pool.roundHashes / siblingStats[key].network.difficulty * 100).toFixed(1)}%`, symbol: siblingStats[key].config.symbol});     
+        //BillyBucks change 10 to the billybucks threshold
+        efforts.push({coin: key, effort: `${(siblingStats[key].pool.roundHashes / 10 * 100).toFixed(1)}%`, symbol: siblingStats[key].config.symbol});     
 
         if (siblingStats[key].pool.lastBlockFound) {
             let lastChildBlockFound = parseInt(siblingStats[key].pool.lastBlockFound)
@@ -2243,7 +2246,8 @@ function home_InitTemplate(parentStats, siblingStats) {
         updateText(`networkLastReward${key}`, getReadableCoin(siblingStats[key], siblingStats[key].lastblock.reward));
         updateText(`poolMiners${key}`, `${siblingStats[key].pool.miners}/${siblingStats[key].pool.minersSolo}`);
         updateText(`blocksTotal${key}`, `${siblingStats[key].pool.totalBlocks}/${siblingStats[key].pool.totalBlocksSolo}`);
-        updateText(`currentEffort${key}`, (siblingStats[key].pool.roundHashes / siblingStats[key].network.difficulty * 100).toFixed(1) + '%');
+        //BillyBucks change 10 to the billybucks threshold
+        updateText(`currentEffort${key}`, (siblingStats[key].pool.roundHashes / 10 * 100).toFixed(1) + '%');
     })
 
     sortElementList($(`#networkStats`), $(`#networkStats>div`), siblingStats)
@@ -2309,6 +2313,6 @@ function home_InitTemplate(parentStats, siblingStats) {
     updateText('paymentsMinimum', getReadableCoin(parentStats, parentStats.config.minPaymentThreshold));
 
     updateText('blockSolvedTime', getReadableTime(parentStats.network.difficulty / parentStats.pool.hashrate));
-
-    updateText(`currentEffort${coin}`, (parentStats.pool.roundHashes / parentStats.network.difficulty * 100).toFixed(1) + '%');
+    //BillyBucks change 10 to the threshold value from BillyBucks api call
+    updateText(`currentEffort${coin}`, (parentStats.pool.roundHashes / 10 * 100).toFixed(1) + '%');
 }

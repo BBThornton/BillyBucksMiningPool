@@ -734,6 +734,7 @@ function handleMinerStats (urlParts, response) {
 		});
 
 		redisClient.exists(config.coin + ':workers:' + address, function (error, result) {
+			console.log("COIN"+config.coin);
 			if (!result) {
 				response.end(JSON.stringify({
 					error: 'Not found'

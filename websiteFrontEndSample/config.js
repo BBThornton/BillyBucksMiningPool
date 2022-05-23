@@ -1,7 +1,7 @@
-var parentCoin = "TurtleCoin";
+var parentCoin = "BillyBucks";
 
-var api = "Api adress and port sample.com:8117";
-var poolHost = "example.com";
+var api = "http://192.168.1.109:8117";
+//var poolHost = "example.com";
 
 var email = "support email";
 var telegram = "Telegram Adress";
@@ -14,6 +14,8 @@ var transactionExplorer = "http://chainradar.com/{symbol}/transaction/{id}";
 
 var themeCss = "themes/default.css";
 var defaultLang = "en";
+
+
 
 // Merged Mining:
 // var api = "http://poolhost/apiMerged";

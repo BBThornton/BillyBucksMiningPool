@@ -259,7 +259,8 @@ currentPage = {
 
             updateText(`poolMiners${updateKey}`, `${stats.pool.miners}/${stats.pool.minersSolo}`);
             updateText(`blocksTotal${updateKey}`, `${stats.pool.totalBlocks}/${stats.pool.totalBlocksSolo}`);
-            updateText(`currentEffort${updateKey}`, (stats.pool.roundHashes / stats.network.difficulty * 100).toFixed(1) + '%');
+            //BillyBucks need to change 10 to the threshold value retieved from the billybucks file.
+            updateText(`currentEffort${updateKey}`, (stats.pool.roundHashes / 10 * 100).toFixed(1) + '%');
 
 
             let el = updateText('lastHash', lastStats.lastblock.hash)
